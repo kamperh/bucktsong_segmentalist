@@ -1,6 +1,13 @@
 Feature Extraction
 ==================
 
+Overview
+--------
+
+These steps perform basic MFCC extraction and the alignment of discovered word
+pairs as required for correspondence autoencoder (cAE) training.
+
+
 
 MFCCs
 -----
@@ -265,7 +272,7 @@ respective subset portions:
         ../wordpairs/tsonga/tsonga_utd_pairs.list \
         tsonga/tsonga_utd_keys.list \
         tsonga/tsonga_utd_pairs_keys.list
-    ../../src/speech_dtw/utils/calculate_dtw_paths.py --input_fmt npz \
+    ../../../src/speech_dtw/utils/calculate_dtw_paths.py --input_fmt npz \
         tsonga/tsonga_utd_pairs_keys.list \
         ../wordpairs/tsonga/tsonga_utd_terms.mfcc.cmvn_dd.npz \
         tsonga/tsonga_utd_pairs_paths.pkl

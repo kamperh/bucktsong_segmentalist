@@ -42,19 +42,21 @@ clone the required GitHub repositories into `../src/` as follows:
     git clone https://github.com/kamperh/segmentalist.git ../src/segmentalist/
     git clone https://github.com/kamperh/speech_correspondence.git \
         ../src/speech_correspondence/
+    git clone https://github.com/kamperh/speech_dtw.git ../src/speech_dtw/
     git clone https://github.com/bootphon/tde.git ../src/tde
 
-To use `segmentalist`, run `make` in its directory. Unit tests can be performed
-by running `make test`. See its readme for more details.
+For both `segmentalist` and `speech_dtw`, you need to run `make` to build. Unit
+tests can be performed by running `make test`. See the readmes for more
+details.
 
-The `speech_correspondence` repository is only necessary if you plan to do
-correspondence autoencoder (cAE) feature extraction. This repository uses the
-Theano and Pylearn2 dependencies, which is unnecessary if cAE features will not
-be used. The `tde` repository is only necessary if you plan to also calculate
-the evaluation metrics from the Zero Resource Speech Challenge 2015; without
-`tde` you will not be able to calculate the metrics in Section 4.5 of [Kamper
-et al., 2016](http://arxiv.org/abs/1606.06950), but you will still be able to
-calculate the other metrics in the paper.
+The `speech_correspondence` and `speech_dtw` repositories are only necessary if
+you plan to do correspondence autoencoder (cAE) feature extraction. This
+repository uses the Theano and Pylearn2 dependencies, which is unnecessary if
+cAE features will not be used. The `tde` repository is only necessary if you
+plan to also calculate the evaluation metrics from the Zero Resource Speech
+Challenge 2015; without `tde` you will not be able to calculate the metrics in
+Section 4.5 of [Kamper et al., 2016](http://arxiv.org/abs/1606.06950), but you
+will still be able to calculate the other metrics in the paper.
 
 
 
@@ -117,7 +119,8 @@ Dependencies
 Standalone packages:
 
 - [Python](https://www.python.org/)
-- [Cython](http://cython.org/): Used by the `segmentalist` repository below.
+- [Cython](http://cython.org/): Used by the `segmentalist` and `speech_dtw`
+  repositories below.
 - [HTK](http://htk.eng.cam.ac.uk/): Used for MFCC feature extraction.
 - [Theano](http://deeplearning.net/software/theano/): Required by the
   `speech_correspondence` repository below.
@@ -134,6 +137,9 @@ Repositories from GitHub:
   Used for correspondence autoencoder feature extraction.  Should be cloned
   into the directory `../src/speech_correspondence/`, as done in the
   Preliminary section above.
+- [speech_dtw](https://github.com/kamperh/speech_dtw/): Used for correspondence
+  autoencoder feature extraction.  Should be cloned into the directory
+  `../src/speech_dtw/`, as done in the Preliminary section above.
 - [tde](https://github.com/bootphon/tde/): The Zero Resource Speech Challenge
   evaluation tools. Should be cloned into the directory `tde/`, as done in the
   Preliminary section above.
