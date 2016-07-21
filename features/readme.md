@@ -9,6 +9,9 @@ Move to the MFCC feature extraction directory:
 
     cd mfcc
 
+Edit the `buckeye_wavs` and `tsonga_wavs` variables at the start of
+`get_raw_htk.py` to reflect your paths.
+
 Extract the MFCCs with CMVN and deltas and delta-delta features for the whole
 Buckeye corpus (this can take a while):
 
