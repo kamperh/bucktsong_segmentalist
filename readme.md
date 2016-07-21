@@ -42,21 +42,19 @@ clone the required GitHub repositories into `../src/` as follows:
     git clone https://github.com/kamperh/segmentalist.git ../src/segmentalist/
     git clone https://github.com/kamperh/speech_correspondence.git \
         ../src/speech_correspondence/
+    git clone https://github.com/bootphon/tde.git ../src/tde
+
+To use `segmentalist`, run `make` in its directory. Unit tests can be performed
+by running `make test`. See its readme for more details.
 
 The `speech_correspondence` repository is only necessary if you plan to do
 correspondence autoencoder (cAE) feature extraction. This repository uses the
 Theano and Pylearn2 dependencies, which is unnecessary if cAE features will not
-be used.
-
-Clone the `tde` repository from GitHub into `tde/`:
-
-    git clone https://github.com/bootphon/tde.git tde
-
-This repository is only necessary if you plan to also calculate the evaluation
-metrics from the Zero Resource Speech Challenge 2015; without `tde` you will
-not be able to calculate the metrics in Section 4.5 of [Kamper et al.,
-2016](http://arxiv.org/abs/1606.06950), but you will still be able to calculate
-the other metrics in the paper.
+be used. The `tde` repository is only necessary if you plan to also calculate
+the evaluation metrics from the Zero Resource Speech Challenge 2015; without
+`tde` you will not be able to calculate the metrics in Section 4.5 of [Kamper
+et al., 2016](http://arxiv.org/abs/1606.06950), but you will still be able to
+calculate the other metrics in the paper.
 
 
 

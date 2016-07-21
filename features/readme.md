@@ -10,7 +10,7 @@ Move to the MFCC feature extraction directory:
     cd mfcc
 
 Extract the MFCCs with CMVN and deltas and delta-delta features for the whole
-Buckeye corpus:
+Buckeye corpus (this can take a while):
 
     ./get_raw_htk.py buckeye
     ./get_segments_scp.py buckeye
@@ -19,7 +19,7 @@ Buckeye corpus:
     ./write_htk_npz.py buckeye/cmvn_dd buckeye/numpy/buckeye.mfcc.cmvn_dd.npz
 
 Extract the MFCCs with CMVN and deltas and delta-delta features for the Tsonga
-corpus:
+corpus (this can take a while):
 
     ./get_raw_htk.py tsonga
     ./get_segments_scp.py tsonga
