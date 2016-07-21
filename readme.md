@@ -94,7 +94,19 @@ To train the cAE, run the steps in [cae/readme.md](cae/readme.md).
 
 Unsupervised syllable boundary detection
 ----------------------------------------
+We use the unsupervised syllable boundary detection algorithm described in:
 
+- O. J. Räsänen, G. Doyle, and M. C. Frank, "Unsupervised word discovery from
+  speech using automatic segmentation into syllable-like units," in *Proc.
+  Interspeech*, 2015.
+
+Rather than packaging their code within our repository, we provide the output
+of their tools directly in `syllables/landmarks/`. All that remains is to
+extract the subsets; run the following:
+
+    cd syllables
+    ./get_landmarks_subset.py devpart1
+    ./get_landmarks_subset.py zs
 
 
 

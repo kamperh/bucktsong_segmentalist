@@ -5,5 +5,7 @@
 !*.pyx
 !*.md
 !*.conf
-!*/data/*
+!features/data/*
+!syllables/landmarks/buckeye/landmarks.unsup_syl.pkl
+!syllables/landmarks/tsonga/landmarks.unsup_syl.pkl
 !Makefile
