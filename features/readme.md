@@ -82,16 +82,16 @@ Analyze the lengths, means and variances in a given npz file:
 Word-pair extraction
 --------------------
 
-Move to the word-pair directory:
+These steps are required if you are planning to train the cAE. Move to the
+word-pair directory:
 
     cd wordpairs
 
 Get the features for the word pairs discovered only in the respective subset
 portions:
 
-    mkdir buckeye zs devpart1 tsonga
-
     # Buckeye, pairs from Aren
+    mkdir buckeye
     ./strip_nonvad_from_pairs.py \
         ../mfcc/buckeye/lists/segments.list \
         ../data/buckeye.fdlps.0.93.pairs \
@@ -102,6 +102,7 @@ portions:
         buckeye/buckeye_utd_terms.list buckeye/buckeye_utd_terms.mfcc.cmvn_dd.npz
 
     # ZeroSpeech, pairs from Aren
+    mkdir zs
     ./strip_nonvad_from_pairs.py \
         ../mfcc/buckeye/lists/segments.list \
         ../data/zs_buckeye.fdlps.0.93.pairs \
@@ -111,19 +112,8 @@ portions:
         ../subsets/zs/zs.mfcc.cmvn_dd.npz \
         zs/zs_utd_terms.list zs/zs_utd_terms.mfcc.cmvn_dd.npz
 
-    # ZeroSpeech, pairs from Sameer
-    ./strip_nonvad_from_pairs.py \
-        ../mfcc/buckeye/lists/segments.list \
-        ../data/utd_pairs_sameer/english_dtw85_olap_80_dedup80.pairs \
-        zs/zs_utd_dtw85_olap_80_dedup80_pairs.list
-    ./get_terms_from_pairs.py zs/zs_utd_dtw85_olap_80_dedup80_pairs.list \
-        zs/zs_utd_dtw85_olap_80_dedup80_terms.list
-    ./get_segments_from_npz.py \
-        ../subsets/zs/zs.mfcc.cmvn_dd.npz \
-        zs/zs_utd_dtw85_olap_80_dedup80_terms.list \
-        zs/zs_utd_dtw85_olap_80_dedup80_terms.mfcc.cmvn_dd.npz
-
     # Devpart1
+    mkdir devpart1
     ./strip_nonvad_from_pairs.py \
         ../mfcc/buckeye/lists/segments.list \
         ../data/buckeye.fdlps.0.93.pairs buckeye/buckeye_utd_pairs.list
@@ -137,6 +127,7 @@ portions:
         devpart1/devpart1_utd_terms.list devpart1/devpart1_utd_terms.mfcc.cmvn_dd.npz
 
     # Tsonga
+    mkdir tsonga
     ./strip_nonvad_from_pairs.py \
         ../mfcc/tsonga/lists/segments.list \
         ../data/zs_tsonga.fdlps.0.925.pairs.v0 \
@@ -220,7 +211,8 @@ Get the same-different terms and subsets:
 Word-pair alignment
 -------------------
 
-Move to the directory where word alignment is performed:
+These steps are required if you are planning to train the cAE. Move to the
+directory where word alignment is performed:
 
     cd wordpair_aligns
 
@@ -264,25 +256,6 @@ respective subset portions:
         zs/zs_utd_pairs_paths.pkl \
         zs/zs_utd.word1.npy \
         zs/zs_utd.word2.npy
-
-    # ZeroSpeech, pairs from Sameer
-    ./get_npz_keys.py \
-        ../wordpairs/zs/zs_utd_config0.85-0.80-0.80_terms.mfcc.cmvn_dd.npz \
-        zs/zs_utd_dtw87_olap_80_dedup80_keys.list
-    ./get_pairs_list.py \
-        ../wordpairs/zs/zs_utd_dtw87_olap_80_dedup80_pairs.list \
-        zs/zs_utd_dtw87_olap_80_dedup80_keys.list \
-        zs/zs_utd_dtw87_olap_80_dedup80_pairs_keys.list
-    ../../src/speech_dtw/utils/calculate_dtw_paths.py --input_fmt npz \
-        zs/zs_utd_dtw87_olap_80_dedup80_pairs_keys.list \
-        ../wordpairs/zs/zs_utd_dtw87_olap_80_dedup80_terms.mfcc.cmvn_dd.npz \
-        zs/zs_utd_dtw87_olap_80_dedup80_pairs_paths.pkl
-    ./get_frames_from_paths.py \
-        ../wordpairs/zs/zs_utd_dtw87_olap_80_dedup80_terms.mfcc.cmvn_dd.npz \
-        zs/zs_utd_dtw87_olap_80_dedup80_pairs_keys.list \
-        zs/zs_utd_dtw87_olap_80_dedup80_pairs_paths.pkl \
-        zs/zs_utd_dtw87_olap_80_dedup80.word1.npy \
-        zs/zs_utd_dtw87_olap_80_dedup80.word2.npy
 
     # Tsonga
     mkdir tsonga

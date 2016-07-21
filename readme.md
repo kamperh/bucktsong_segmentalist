@@ -62,7 +62,8 @@ Feature extraction
 ------------------
 
 Some preprocessed resources are given in `features/data/`. Extract MFCC
-features by running the steps in [features/readme.md](features/readme.md).
+features by running the steps in [features/readme.md](features/readme.md). Some
+steps are optional depending on whether you intend to train a cAE (see below).
 
 
 
