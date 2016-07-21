@@ -76,9 +76,6 @@ Analyze speaker lists:
 Analyze the lengths, means and variances in a given npz file:
 
     ./analyze_buckeye_npz.py zs/zs.mfcc.cmvn_dd.npz
-    ./analyze_buckeye_npz.py ../wordpairs/zs/zs_utd_terms.mfcc.cmvn_dd.npz
-    ./analyze_buckeye_npz.py \
-        ../wordpairs/devpart1/devpart1_utd_terms.mfcc.cmvn_dd.npz
 
 
 
