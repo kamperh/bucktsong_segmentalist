@@ -10,7 +10,7 @@ Date: 2015
 
 import argparse
 import sys
-sys.path.append("../src/speech_correspondence/speech_correspondence")
+sys.path.append("../../src/speech_correspondence/speech_correspondence")
 import train_stacked_dae
 
 

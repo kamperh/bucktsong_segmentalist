@@ -3,7 +3,6 @@ Recipe: Segmentation and Clustering of Buckeye English and NCHLT Xitsonga
 
 Overview
 --------
-
 This is a recipe for unsupervised segmentation and clustering of subsets of the
 Buckeye English and NCHLT Xitsonga corpora. Details of the approach is given in
 [Kamper et al., 2016](http://arxiv.org/abs/1606.06950):
@@ -23,7 +22,6 @@ with this recipe.
 
 Disclaimer
 ----------
-
 The code provided here is not pretty. But I believe that research should be
 reproducible, and I hope that this repository is sufficient to make this
 possible for the paper mentioned above. I provide no guarantees with the code,
@@ -34,7 +32,6 @@ comments.
 
 Preliminaries
 -------------
-
 Install all the standalone dependencies (see Dependencies section below). Then
 clone the required GitHub repositories into `../src/` as follows:
 
@@ -62,7 +59,6 @@ will still be able to calculate the other metrics in the paper.
 
 Feature extraction
 ------------------
-
 Some preprocessed resources are given in `features/data/`. Extract MFCC
 features by running the steps in [features/readme.md](features/readme.md). Some
 steps are optional depending on whether you intend to train a cAE (see below).
@@ -71,7 +67,6 @@ steps are optional depending on whether you intend to train a cAE (see below).
 
 Correspondence autoencoder features (optional)
 ----------------------------------------------
-
 In [Kamper et al., 2016](http://arxiv.org/abs/1606.06950) we compare both MFCCs
 and correspondence autoencoder (cAE) features as input to our system. It is not
 necessary to perform the steps below if you are happy with using MFCCs. The cAE
@@ -91,8 +86,9 @@ UTD system are provided as part of the repository in the following files:
 - Xitsonga pairs: `features/data/zs_tsonga.fdlps.0.925.pairs.v0`
 
 The MFCC features for these pairs were extracted as part of feature extraction
-(previous section). To train the cAE, run the steps in
-[cae/readme.md](cae/readme.md).
+(previous section).
+
+To train the cAE, run the steps in [cae/readme.md](cae/readme.md).
 
 
 
@@ -148,7 +144,6 @@ Repositories from GitHub:
 
 Contributors
 ------------
-
 - [Herman Kamper](http://www.kamperh.com/)
 - [Aren Jansen](http://www.clsp.jhu.edu/~ajansen/)
 - [Sharon Goldwater](http://homepages.inf.ed.ac.uk/sgwater/)

@@ -11,7 +11,7 @@ Date: 2015
 from os import path
 import argparse
 import sys
-sys.path.append("../src/speech_correspondence/speech_correspondence")
+sys.path.append("../../src/speech_correspondence/speech_correspondence")
 import train_correspondence_ae
 
 
