@@ -4,4 +4,6 @@
 !*.py
 !*.pyx
 !*.md
+!*.pairs
+!*.conf
 !Makefile
