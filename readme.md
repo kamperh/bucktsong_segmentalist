@@ -102,7 +102,7 @@ We use the unsupervised syllable boundary detection algorithm described in:
 
 Rather than packaging their code within our repository, we provide the output
 of their tools directly in `syllables/landmarks/`. All that remains is to
-extract the subsets; run the following:
+extract subsets of Buckeye; run the following:
 
     cd syllables
     ./get_landmarks_subset.py devpart1
@@ -112,7 +112,9 @@ extract the subsets; run the following:
 
 Acoustic word embeddings through downsampling
 ---------------------------------------------
-
+We use one of the simplest methods to obtain acoustic word embeddings:
+downsampling. We downsample both MFCC features and cAE features. Run the steps
+in [downsample/readme.md](downsample/readme.md).
 
 
 

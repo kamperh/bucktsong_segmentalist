@@ -234,7 +234,7 @@ respective subset portions:
         ../wordpairs/devpart1/devpart1_utd_pairs.list \
         devpart1/devpart1_utd_keys.list \
         devpart1/devpart1_utd_pairs_keys.list
-    ../../src/speech_dtw/utils/calculate_dtw_paths.py --input_fmt npz \
+    ../../../src/speech_dtw/utils/calculate_dtw_paths.py --input_fmt npz \
         devpart1/devpart1_utd_pairs_keys.list \
         ../wordpairs/devpart1/devpart1_utd_terms.mfcc.cmvn_dd.npz \
         devpart1/devpart1_utd_pairs_paths.pkl
@@ -253,7 +253,7 @@ respective subset portions:
         ../wordpairs/zs/zs_utd_pairs.list \
         zs/zs_utd_keys.list \
         zs/zs_utd_pairs_keys.list
-    ../../src/speech_dtw/utils/calculate_dtw_paths.py --input_fmt npz \
+    ../../../src/speech_dtw/utils/calculate_dtw_paths.py --input_fmt npz \
         zs/zs_utd_pairs_keys.list \
         ../wordpairs/zs/zs_utd_terms.mfcc.cmvn_dd.npz \
         zs/zs_utd_pairs_paths.pkl
