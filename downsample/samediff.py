@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-Functions for performing same-different evaluation.
+Functionality for performing same-different evaluation.
 
 Details are given in:
 - M. A. Carlin, S. Thomas, A. Jansen, and H. Hermansky, "Rapid evaluation of
@@ -9,13 +9,14 @@ Details are given in:
   2011.
 
 Author: Herman Kamper
-Contact: kamperh@gmail.com
-Date: 2014, 2015
+Contact: h.kamper@sms.ed.ac.uk
+Date: 2014
 """
 
-from datetime import datetime
 from scipy.spatial.distance import pdist
 import argparse
+import datetime
+import matplotlib.pyplot as plt
 import numpy as np
 import sys
 
@@ -24,7 +25,7 @@ import sys
 #                              SAMEDIFF FUNCTIONS                             #
 #-----------------------------------------------------------------------------#
 
-def average_precision(pos_distances, neg_distances, show_plot=False):
+def average_precision(pos_distances, neg_distances, show_plot):
     """
     Calculate average precision and precision-recall breakeven.
 
@@ -60,45 +61,11 @@ def average_precision(pos_distances, neg_distances, show_plot=False):
     prb = (recall[prb_i] + precision[prb_i])/2.
 
     if show_plot:
-        import matplotlib.pyplot as plt
         plt.plot(recall, precision)
         plt.xlabel("Recall")
         plt.ylabel("Precision")
 
     return average_precision, prb
-
-
-def mean_average_precision(distances, labels):
-    """
-    Calculate mean average precision and precision-recall breakeven.
-
-    Returns
-    -------
-    mean_average_precision, mean_prb, ap_dict : float, float, dict
-        The dict gives the per-type average precisions.
-    """
-
-    label_matches = generate_matches_array(labels)  # across all tokens
-
-    ap_dict = {}
-    prbs = []
-    for target_type in sorted(set(labels)):
-        if len(np.where(np.asarray(labels) == target_type)[0]) == 1:
-            continue
-        type_matches = generate_type_matches_array(labels, target_type)
-        swtt_matches = np.bitwise_and(label_matches == True, type_matches == True) # same word, target type
-        dwtt_matches = np.bitwise_and(label_matches == False, type_matches == True) # different word, target type
-        ap, prb = average_precision(distances[swtt_matches], distances[dwtt_matches])
-        prbs.append(prb)
-        ap_dict[target_type] = ap
-        # print target_type, ap, prb
-        # print len(np.where(type_matches)[0])
-        # print len(np.where(swtt_matches)[0])
-        # print len(np.where(dwtt_matches)[0])
-        # # print prb
-        # if len(np.where(swtt_matches)[0]) > 1:
-        #     break
-    return np.mean(ap_dict.values()), np.mean(prbs), ap_dict
 
 
 def generate_matches_array(labels):
@@ -115,28 +82,6 @@ def generate_matches_array(labels):
     for n in range(N):
         cur_label = labels[n]
         matches[cur_matches_i:cur_matches_i + (N - n) - 1] = np.asarray(labels[n + 1:]) == cur_label
-        cur_matches_i += N - n - 1
-
-    return matches
-
-
-def generate_type_matches_array(labels, target_type):
-    """
-    Return an array of bool in the same order as the distances from
-    `scipy.spatial.distance.pdist` indicating whether a distance is between a
-    pair involving `target_type`.
-    """
-    N = len(labels)
-    matches = np.zeros(N*(N - 1)/2, dtype=np.bool)
-
-    # For every distance, mark whether it is a true match or not
-    cur_matches_i = 0
-    for n in range(N):
-        cur_label = labels[n]
-        if cur_label == target_type:
-            matches[cur_matches_i:cur_matches_i + (N - n) - 1] = True
-        else:
-            matches[cur_matches_i:cur_matches_i + (N - n) - 1] = np.asarray(labels[n + 1:]) == target_type
         cur_matches_i += N - n - 1
 
     return matches
@@ -193,7 +138,7 @@ def main():
     N = len(labels)
 
     # Read distances
-    print "Start time: " + str(datetime.now())
+    print "Start time: " + str(datetime.datetime.now())
     if args.binary_dists:
         print "Reading distances from binary file:", args.distances_fn
         distances_vec = np.fromfile(args.distances_fn, dtype=np.float32)
@@ -218,7 +163,7 @@ def main():
     ap, prb = average_precision(distances_vec[matches == True], distances_vec[matches == False], False)
     print "Average precision:", ap
     print "Precision-recall breakeven:", prb
-    print "End time: " + str(datetime.now())
+    print "End time: " + str(datetime.datetime.now())
 
 
 if __name__ == "__main__":

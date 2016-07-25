@@ -124,8 +124,8 @@ extract subsets of Buckeye; run the following:
 
 
 
-Acoustic word embeddings through downsampling
----------------------------------------------
+Downsampling: acoustic word embeddings
+--------------------------------------
 We use one of the simplest methods to obtain acoustic word embeddings:
 downsampling. We downsample both MFCC features and cAE features. Run the steps
 in [downsample/readme.md](downsample/readme.md).

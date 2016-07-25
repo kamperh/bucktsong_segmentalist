@@ -24,8 +24,8 @@ Create the output directories:
 
 
 
-Same-different evaluation
--------------------------
+Intermediate test: same-different evaluation
+--------------------------------------------
 
 Perform downsampling on MFCCs (without deltas), evaluate and analyze:
 
