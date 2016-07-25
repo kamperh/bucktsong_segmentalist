@@ -16,10 +16,7 @@ import numpy as np
 import random
 import sys
 
-basedir = path.dirname(path.abspath(__file__))
-sys.path.append(path.join(basedir, "..", "src", "couscous"))
-
-from couscous import plotting
+import plotting
 
 
 #-----------------------------------------------------------------------------#

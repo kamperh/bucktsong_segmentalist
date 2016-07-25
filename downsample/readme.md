@@ -12,18 +12,6 @@ Create the output directories:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 Intermediate test: same-different evaluation
 --------------------------------------------
 
@@ -62,19 +50,6 @@ Perform downsampling on MFCCs (without deltas), evaluate and analyze:
     ./analyze_embeds.py --normalize --word_type \
         kombisa,swilaveko,kahle,swinene,xiyimo,fanele,naswona,xikombelo,leswaku \
         output/tsonga/samediff.mfcc.cmvn_dd.n_10.npz
-
-Peform downsampling on cAE features of D=100, evaluate and analyze:
-
-    # Devpart1
-    n_samples=10
-    ./downsample.py --technique resample \
-        ../cae/encoded/encoded.devpart1_samediff_terms.mfcc.cmvn_dd.100x9.batch_size2048.corruption0.max_epochs5.correspondence_ae.devpart1_utd.max_epochs120.reverseTrue.layer-2.npz \
-        output/devpart1/samediff.cae.d_100.n_${n_samples}.npz \
-        ${n_samples}
-    ./eval_samediff.py output/devpart1/samediff.cae.d_100.n_${n_samples}.npz
-    ./analyze_embeds.py --normalize --word_type \
-        because,yknow,people,something,anything,education,situation \
-        output/devpart1/samediff.cae.d_100.n_${n_samples}.npz
 
 Peform downsampling on cAE features of D=13, evaluate and analyze:
 
@@ -121,21 +96,6 @@ The average precisions obtained above should be as follows:
 - Tsonga, downsampled cAE: 0.298749626029
 
 
-Dense embedding extraction on grount truth phone landmarks
-----------------------------------------------------------
-
-Get landmarks at ground truth phone boundaries:
-
-    ./get_landmarks_gtphone.py devpart1
-
-Get the segmentation intervals over the landmarks:
-
-    ./get_seglist.py devpart1 gtphone
-
-Get the dense embeddings over the segmentation intervals:
-
-    ./downsample_dense.py --frame_dims 13 devpart1 gtphone mfcc
-
 
 Dense embedding extraction on unsupervised syllable landmarks
 -------------------------------------------------------------
@@ -174,7 +134,7 @@ Description of the segmentation interval dictionary
 
 In each pickled file (e.g. `devpart1.seglist.unsup_syl.pkl`) is a single
 dictionary containing a segmentation list: all the intervals for which
-embeddings are required. You load this dictionary as:
+embeddings are required. You can load this dictionary as:
 
     import cPickle as pickle
     with open("devpart1.seglist.unsup_syl.pkl", "rb") as f:
@@ -210,11 +170,11 @@ need stretches from frame 0 to frame 12 (inclusive) within this utterance.
 Working this back to the original audio, this will correspond to the interval
 (31097 + 0, 31097 + 12) = (31097, 31109) in the original audio file "s0403b".
 
-What I need in return is a dictionary `embeddings` having the same keys as
-`seglist` with embeddings in the same order as above. As an example, if we have
-embeddings of dimensionality 3, the dictionary
-`embeddings["s0403b_031097-031250"]` should be a matrix looking something like
-this:
+If you want to use arbitrary acoustic word embeddings, you would need to
+construct a dictionary `embeddings` having the same keys as `seglist` with
+embeddings in the same order as above. As an example, if we have embeddings of
+dimensionality 3, the dictionary `embeddings["s0403b_031097-031250"]` should be
+a matrix looking something like this:
 
     array([[ 0.53194974,  0.77044634,  1.79343371],
            [ 0.89781123, -0.01795841, -0.09023884],
@@ -235,5 +195,3 @@ this:
 So, for "s0403b_031097-031250" the embedding for speech frames (0, 12) is
 `[ 0.53194974,  0.77044634,  1.79343371]` while the embedding for frames
 (86, 153) is `[ 1.27053322,  0.03837404,  0.8739168 ]`.
-
-I hope that makes sense, but ask any questions and I can change things.

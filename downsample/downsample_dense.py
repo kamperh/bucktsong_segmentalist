@@ -49,8 +49,7 @@ def downsample_utterance(features, seglist, n):
     """
     embeddings = []
     for i, j in seglist:
-        y = features[i:j, :].T
-        assert False, "check if the above shouldn't be j+1"
+        y = features[i:j+1, :].T
         y_new = signal.resample(y, n, axis=1).flatten("C")
         embeddings.append(y_new)
     return np.asarray(embeddings)
