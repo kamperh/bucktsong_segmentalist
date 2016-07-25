@@ -31,7 +31,7 @@ parameter_dict = {
     "dataset_npy_fn": "../features/subsets/" + dataset + "/" + dataset + ".mfcc.cmvn_dd.npy",
     "models_basedir": "models/" + dataset + "/",
     "dim_input": 39,
-    "layer_spec_str": "[100] * 9",  # "layer_spec_str": "100,100,100,100,100,100,100,13,100",
+    "layer_spec_str": "100,100,100,100,100,100,100,13,100",  # "layer_spec_str": "[100] * 9",
     "corruption": 0,
     "max_epochs": 5,
     "batch_size": 2048,

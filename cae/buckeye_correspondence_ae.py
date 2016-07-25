@@ -39,7 +39,7 @@ parameter_dict = {
     "dataset_npy_fn_y": "../features/wordpair_aligns/" + dataset_basename + ".word2.npy",
     "models_basedir": "models/" + dataset + "/",
     "dim_input": 39,
-    "layer_spec_str": "[100] * 9",  # "layer_spec_str": "100,100,100,100,100,100,100,13,100",
+    "layer_spec_str": "100,100,100,100,100,100,100,13,100",  # "layer_spec_str": "[100] * 9",
     "dae_corruption": 0,  # these dae parameters specify which pretrained model to use
     "dae_max_epochs": 5,
     "max_epochs": 120,  # 120
