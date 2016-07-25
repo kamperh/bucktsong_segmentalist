@@ -16,7 +16,6 @@ Date: 2014
 from scipy.spatial.distance import pdist
 import argparse
 import datetime
-import matplotlib.pyplot as plt
 import numpy as np
 import sys
 
@@ -25,7 +24,7 @@ import sys
 #                              SAMEDIFF FUNCTIONS                             #
 #-----------------------------------------------------------------------------#
 
-def average_precision(pos_distances, neg_distances, show_plot):
+def average_precision(pos_distances, neg_distances, show_plot=False):
     """
     Calculate average precision and precision-recall breakeven.
 
@@ -61,6 +60,7 @@ def average_precision(pos_distances, neg_distances, show_plot):
     prb = (recall[prb_i] + precision[prb_i])/2.
 
     if show_plot:
+        import matplotlib.pyplot as plt
         plt.plot(recall, precision)
         plt.xlabel("Recall")
         plt.ylabel("Precision")
@@ -79,7 +79,7 @@ def generate_matches_array(labels):
 
     # For every distance, mark whether it is a true match or not
     cur_matches_i = 0
-    for n in range(N):
+    for n in range(N - 1):
         cur_label = labels[n]
         matches[cur_matches_i:cur_matches_i + (N - n) - 1] = np.asarray(labels[n + 1:]) == cur_label
         cur_matches_i += N - n - 1
