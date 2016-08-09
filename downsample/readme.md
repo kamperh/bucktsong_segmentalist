@@ -37,7 +37,7 @@ Perform downsampling on MFCCs (without deltas), evaluate and analyze:
     ./eval_samediff.py \
         output/zs/samediff.mfcc.cmvn_dd.n_${n_samples}.npz
     ./analyze_embeds.py --normalize --word_type \
-        kombisa,swilaveko,kahle,swinene,xiyimo,fanele,naswona,xikombelo,leswaku \
+        because,yknow,people,something,anything,education,situation \
         output/zs/samediff.mfcc.cmvn_dd.n_${n_samples}.npz
 
     # Tsonga
@@ -127,6 +127,7 @@ Get the dense embeddings over the segmentation intervals:
     ./downsample_dense.py --frame_dims 13 devpart1 unsup_syl cae.d_13
     ./downsample_dense.py --frame_dims 13 zs unsup_syl cae.d_13
     ./downsample_dense.py --frame_dims 13 tsonga unsup_syl cae.d_13
+
 
 
 Description of the segmentation interval dictionary

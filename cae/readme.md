@@ -13,11 +13,11 @@ scripts themselves should be edited to change training options):
     ../../src/speech_correspondence/speech_correspondence/encode.py \
         --use_layer -2 \
         ../features/wordpairs/devpart1/devpart1_samediff_terms.mfcc.cmvn_dd.npz \
-        models/devpart1/100x9.batch_size2048.corruption0.max_epochs5/correspondence_ae.devpart1_utd.max_epochs120.reverseTrue.pkl
+        models/devpart1/100-100-100-100-100-100-100-13-100.batch_size2048.corruption0.max_epochs5/correspondence_ae.devpart1_utd.max_epochs120.reverseTrue.pkl
     ../../src/speech_correspondence/speech_correspondence/encode.py \
         --use_layer -2 \
         ../features/subsets/devpart1/devpart1.mfcc.cmvn_dd.npz \
-        models/devpart1/100x9.batch_size2048.corruption0.max_epochs5/correspondence_ae.devpart1_utd.max_epochs120.reverseTrue.pkl
+        models/devpart1/100-100-100-100-100-100-100-13-100.batch_size2048.corruption0.max_epochs5/correspondence_ae.devpart1_utd.max_epochs120.reverseTrue.pkl
 
     # ZeroSpeech
     ./buckeye_stacked_dae.py zs
