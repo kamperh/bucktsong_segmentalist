@@ -1,5 +1,5 @@
-Segmentation and Clustering of Buckeye English and NCHLT Xitsonga
-=================================================================
+Unsupervised Segmentation and Clustering of Buckeye English and NCHLT Xitsonga
+==============================================================================
 
 Data pre-processing
 -------------------

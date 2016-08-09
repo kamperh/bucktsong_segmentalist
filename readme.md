@@ -1,6 +1,14 @@
 Recipe: Segmentation and Clustering of Buckeye English and NCHLT Xitsonga
 =========================================================================
 
+Contributors
+------------
+- [Herman Kamper](http://www.kamperh.com/)
+- [Aren Jansen](http://www.clsp.jhu.edu/~ajansen/)
+- [Sharon Goldwater](http://homepages.inf.ed.ac.uk/sgwater/)
+
+
+
 Overview
 --------
 This is a recipe for unsupervised segmentation and clustering of subsets of the
@@ -134,6 +142,9 @@ in [downsample/readme.md](downsample/readme.md).
 
 Segmentalist: Unsupervised segmentation and clustering
 ------------------------------------------------------
+Segmentation and clustering is performed using the
+[segmentalist](https://github.com/kamperh/segmentalist/) package. Run the steps
+in [segmentation/readme.md](segmentation/readme.md).
 
 
 
@@ -145,6 +156,7 @@ Standalone packages:
 - [Python](https://www.python.org/)
 - [Cython](http://cython.org/): Used by the `segmentalist` and `speech_dtw`
   repositories below.
+- [NumPy](http://www.numpy.org/) and [SciPy](http://www.scipy.org/).
 - [HTK](http://htk.eng.cam.ac.uk/): Used for MFCC feature extraction.
 - [Theano](http://deeplearning.net/software/theano/): Required by the
   `speech_correspondence` repository below.
@@ -167,11 +179,3 @@ Repositories from GitHub:
 - [tde](https://github.com/bootphon/tde/): The Zero Resource Speech Challenge
   evaluation tools. Should be cloned into the directory `tde/`, as done in the
   Preliminary section above.
-
-
-
-Contributors
-------------
-- [Herman Kamper](http://www.kamperh.com/)
-- [Aren Jansen](http://www.clsp.jhu.edu/~ajansen/)
-- [Sharon Goldwater](http://homepages.inf.ed.ac.uk/sgwater/)

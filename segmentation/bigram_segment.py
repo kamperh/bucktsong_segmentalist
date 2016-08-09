@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 
 """
-Unsupervised unigram acoustic word segmentation of Buckeye and NCHLT Tsonga.
+Unsupervised bigram acoustic word segmentation of Buckeye and NCHLT Tsonga.
 
 Author: Herman Kamper
 Contact: kamperh@gmail.com
-Date: 2015-2016
+Date: 2016
 """
 
 from datetime import datetime
@@ -19,11 +19,11 @@ import os
 import random
 import sys
 
-sys.path.append(path.join("..", "..", "src", "segmentalist"))
+basedir = path.join(path.dirname(path.abspath(__file__)), "..", "..")
+sys.path.append(path.join(basedir, "src", "segmentalist"))
 
-from segmentalist import fbgmm
+from segmentalist import bigram_acoustic_wordseg
 from segmentalist import gaussian_components_fixedvar
-from segmentalist import unigram_acoustic_wordseg
 import segment_eval
 
 logger = logging.getLogger(__name__)
@@ -36,7 +36,6 @@ logger = logging.getLogger(__name__)
 default_options_dict = {
     "data_dir": None, #"data/devpart1/mfcc.unsup_syl",
     "model_dir": "models",
-    "am_alpha": 1.0,
     "am_K": "0.2landmarks",  # can either be an absolute number or "0.2landmarks", indicating a proportion
     "m_0": "zero",
     "k_0": 0.05,
@@ -49,11 +48,11 @@ default_options_dict = {
     "wip": 0.,  # word insertion penalty
     "n_slices_min": 0,
     "n_slices_max": 6,
-    "min_duration": 0,  # minimum number of frames in segment
+    "min_duration": 25,  # minimum number of frames in segment
     "covariance_type": "fixed",     # can be "fixed", "diag" or "full" (if last
                                     # two, then additional hyper-parameters are
                                     # required)
-    "fb_type": "standard",  # "standard" or "viterbi"
+    "fb_type": "unigram",  # "unigram" or "bigram"
     "segment_n_iter": 15,
     "anneal_schedule": "step",  # None, "linear" or "step"
     "anneal_start_temp_inv": 0.01,  # some start at 0.1 (see Goldwater PhD, 2007, p. 70)
@@ -65,6 +64,18 @@ default_options_dict = {
     "seed_bounds": None,  # filename of pickle of seed boundary dict
     "seed_assignments": None,  # filename of pickle of seed assignments dict
     "time_power_term": 1,   # with 1.2 instead of 1, we get less words (prefer longer words)
+    # "lm_params": {                  # these parameters correspond to unigram model
+    #     "type": "smooth",
+    #     "intrp_lambda": 1.,
+    #     "a": 1.,
+    #     "b": 1e-9                   # needs at leastsmall value here for zero counts
+    #     },
+    "lm_params": {
+        "type": "smooth",
+        "intrp_lambda": 0.1,
+        "a": 1.,
+        "b": 1.,
+        },
     "rnd_seed": 42,
     "log_to_file": False,
     }
@@ -76,9 +87,9 @@ default_options_dict = {
 
 def check_argv():
     """Check the command line arguments."""
-    parser = argparse.ArgumentParser(description=__doc__.strip().split("\n")[0])#, add_help=False)
+    parser = argparse.ArgumentParser(description=__doc__.strip().split("\n")[0], add_help=False)
     parser.add_argument(
-        "--data_dir", type=str, help="data directory (default: %(default)s)",
+        "data_dir", type=str, help="data directory",
         default=default_options_dict["data_dir"]
         )
     parser.add_argument(
@@ -94,12 +105,12 @@ def check_argv():
         default=default_options_dict["wip"]
         )
     parser.add_argument(
-        "--p_boundary_init", type=float, help="default: %(default)s",
-        default=default_options_dict["p_boundary_init"]
-        )    
-    parser.add_argument(
         "--lms", type=float, help="default: %(default)s",
         default=default_options_dict["lms"]
+        )
+    parser.add_argument(
+        "--intrp_lambda", type=float, help="default: %(default)s",
+        default=default_options_dict["lm_params"]["intrp_lambda"]
         )
     parser.add_argument(
         "--time_power_term", type=float, help="default: %(default)s",
@@ -114,18 +125,14 @@ def check_argv():
         default=default_options_dict["min_duration"]
         )
     parser.add_argument(
-        "--segment_n_iter", type=int, help="default: %(default)s",
-        default=default_options_dict["segment_n_iter"]
-        )
-    parser.add_argument(
         "--log_to_file", help="whether the output should be logged to file", action="store_true"
         )
     parser.add_argument(
         "--eval", help="evaluate output from segmentation", action="store_true"
         )
-    # if len(sys.argv) == 1:
-    #     parser.print_help()
-    #     sys.exit(1)
+    if len(sys.argv) == 1:
+        parser.print_help()
+        sys.exit(1)
     return parser.parse_args()
 
 
@@ -149,7 +156,7 @@ def eval_pickle(pickle_fn):
 
 def segment(options_dict, suppress_pickling=False):
     """
-    Segment and save the results of unigram aoustic word segmentation.
+    Segment and save the results of bigram aoustic word segmentation.
 
     The `suppress_pickling` parameter is useful for initializing a model from
     previous output.
@@ -257,13 +264,8 @@ def segment(options_dict, suppress_pickling=False):
         # Seeding labels requires boundaries to also be seeded
         assert seed_assignments is None or seed_bounds is not None  
 
-    # print seed_bounds[seed_bounds.keys()[0]]
-    # print seed_assignments[seed_assignments.keys()[0]]
-    # assert False
-
     # Setup model hyper-parameters
     logger.info("Setting up model")
-    am_class = fbgmm.FBGMM
     if options_dict["m_0"] == "zero":
         m_0 = np.zeros(D)
     else:
@@ -283,10 +285,10 @@ def segment(options_dict, suppress_pickling=False):
         assert False, "invalid `covariance_type`"
 
     # Setup model
-    segmenter = unigram_acoustic_wordseg.UnigramAcousticWordseg(
-        am_class, options_dict["am_alpha"], am_K,
-        am_param_prior, dense_embeddings, vec_ids_dict, durations_dict,
-        landmarks_dict, seed_boundaries_dict=seed_bounds,
+    segmenter = bigram_acoustic_wordseg.BigramAcousticWordseg(
+        am_K, am_param_prior, options_dict["lm_params"],
+        dense_embeddings, vec_ids_dict, durations_dict, landmarks_dict,
+        seed_boundaries_dict=seed_bounds,
         seed_assignments_dict=seed_assignments,
         covariance_type=options_dict["covariance_type"],
         p_boundary_init=options_dict["p_boundary_init"],
@@ -337,9 +339,9 @@ def segment(options_dict, suppress_pickling=False):
 
     elif options_dict["init_am_n_iter"] > 0:
         logger.info("Performing initial acoustic model iterations")
-        am_init_record = segmenter.acoustic_model.gibbs_sample(
-            options_dict["init_am_n_iter"], consider_unassigned=False,
-            anneal_schedule=None
+        am_init_record = segmenter.gibbs_sample(
+            options_dict["init_am_n_iter"],
+            anneal_schedule=None, assignments_only=True
             )
 
     # Perform segmentation
@@ -389,7 +391,6 @@ def segment(options_dict, suppress_pickling=False):
     logger.info(datetime.now())
     return segmenter
 
-
 #-----------------------------------------------------------------------------#
 #                                MAIN FUNCTION                                #
 #-----------------------------------------------------------------------------#
@@ -404,12 +405,11 @@ def main():
     options_dict["S_0_scale"] = args.S_0_scale
     options_dict["wip"] = args.wip
     options_dict["lms"] = args.lms
-    options_dict["p_boundary_init"] = args.p_boundary_init
     options_dict["time_power_term"] = args.time_power_term
     options_dict["rnd_seed"] = args.rnd_seed
     options_dict["min_duration"] = args.min_duration
-    options_dict["segment_n_iter"] = args.segment_n_iter
     options_dict["log_to_file"] = args.log_to_file
+    options_dict["lm_params"]["intrp_lambda"] = args.intrp_lambda
     options_dict["model_dir"] = path.join(
         options_dict["model_dir"], options_dict["data_dir"].replace("data" + os.sep, "")
         )
