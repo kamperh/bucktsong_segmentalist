@@ -40,12 +40,19 @@ comments.
 
 Datasets
 --------
+Portions of the Buckeye English and NCHLT Xitsonga corpora are used. The whole
+Buckeye corpus will be required to execute the steps here, and the portion of
+the NCHLT data. These can be downloaded from:
 
+- Buckeye corpus:
+  [buckeyecorpus.osu.edu](http://buckeyecorpus.osu.edu/)
+- NCHLT Xitsonga portion: [www.zerospeech.com](http://www.lscp.net/persons/dupo
+  ux/bootphon/zerospeech2014/website/page_4.html). This requires registration
+  for the challenge.
 
-Portions of the Buckeye English and NCHLT Xitsonga corpora are used. From the
-complete Buckeye corpus we split off several subsets. The most important are
-the sets labelled as `devpart1` and `zs` in the code here. These sets
-respectively correspond to `English1` and `English2` in [Kamper et al.,
+From the complete Buckeye corpus we split off several subsets. The most
+important are the sets labelled as `devpart1` and `zs` in the code here. These
+sets respectively correspond to `English1` and `English2` in [Kamper et al.,
 2016](http://arxiv.org/abs/1606.06950), so see the paper for more details. More
 details of which speakers are found in which set is also given at the end of
 [features/readme.md](features/readme.md). We use the entire Xitsonga dataset
@@ -56,6 +63,7 @@ of the NCHLT data).
 
 Preliminaries
 -------------
+Obtain all the datasets as described in the Datasets section described above.
 Install all the standalone dependencies (see Dependencies section below). Then
 clone the required GitHub repositories into `../src/` as follows:
 
