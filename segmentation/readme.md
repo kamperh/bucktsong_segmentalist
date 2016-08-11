@@ -111,3 +111,33 @@ Plot embeddings:
 
     ./plot_embeddings.py \
         models/devpart1/mfcc.n_10.unsup_syl/s38/38f9526370/segment.pkl
+
+Get the wav file for a specific cluster:
+
+    ./get_cluster_wav.py \
+        models/devpart1/mfcc.n_10.unsup_syl/s38/38f9526370/segment.pkl PT795
+
+Analyze the top non-function words:
+
+    ./analyze_top_words.py \
+        models/devpart1/mfcc.n_10.unsup_syl/s38/38f9526370/segment.pkl
+
+Plot a heatmap of phones in the biggest clusters:
+
+    ./plot_clusters_prons.py \
+        models/devpart1/mfcc.n_10.unsup_syl/s38/38f9526370/segment.pkl
+    ./plot_clusters_prons.py \
+        --clusters 323,252,1112,647,746,1087,395,867,46,1429,110,442,1079,1118,367,1435,255,147,1190,607,1163,1395,878,103,1328,61,1356,1280,684,1077 \
+        models/devpart1/mfcc.n_10.unsup_syl/s38/38f9526370/segment.pkl
+
+Plot a heatmap of the words in the biggest clusters:
+
+    ./plot_clusters_words.py \
+        models/devpart1/mfcc.n_10.unsup_syl/s38/38f9526370/segment.pkl
+
+Print or plot some mappings:
+
+    ./print_mappings.py \
+        models/devpart1/mfcc.n_10.unsup_syl/s38/38f9526370/segment.pkl
+    ./plot_mappings.py --n_true_tokens_min 4 \
+        models/devpart1/mfcc.n_10.unsup_syl/s38/38f9526370/segment.pkl
