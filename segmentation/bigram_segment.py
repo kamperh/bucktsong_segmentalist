@@ -19,7 +19,7 @@ import os
 import random
 import sys
 
-basedir = path.join(path.dirname(path.abspath(__file__)), "..", "..")
+basedir = path.join(path.dirname(path.abspath(__file__)), "..")
 sys.path.append(path.join(basedir, "src", "segmentalist"))
 
 from segmentalist import bigram_acoustic_wordseg

@@ -3,7 +3,6 @@ Unsupervised Segmentation and Clustering of Buckeye English and NCHLT Xitsonga
 
 Data pre-processing
 -------------------
-
 Format the Buckeye and Tsonga data into the input format used by
 `segmentalist`:
 
@@ -38,7 +37,6 @@ Get data for all the speakers (calls `get_data_speaker.py` repeatedly):
 
 Unigram single-speaker segmentation and evaluation
 --------------------------------------------------
-
 Perform unsupervised acoustic segmentation for specific speaker using MFCC
 embeddings and evaluate:
 
@@ -106,7 +104,6 @@ Producing output:
 
 Analysis
 --------
-
 Plot embeddings:
 
     ./plot_embeddings.py \
@@ -168,3 +165,54 @@ representations:
 The scores are as given in the papers ...
 
 
+Zero-speech tools ...
+
+
+
+Unigram speaker-independent segmentation and evaluation
+-------------------------------------------------------
+
+
+
+
+Bigram single-speaker segmentation and evaluation
+-------------------------------------------------
+
+
+
+
+
+
+
+
+Sweeping options for models
+---------------------------
+The scripts below take a list of parameters in which can then be swept. This is
+useful for parameter optimization on development data.
+
+Sweep speaker-dependent segmentation options:
+
+    stdbuf -oL ./spawn_sweep_segment.py \
+        --sd
+        --S_0_scale 0.001,0.0005,0.0001 \
+        --am_K 1000,1500,2000,3000 \
+        --serial data/devpart1/mfcc.n_10.unsup_syl > models/1.txt
+    ./spawn_sweep_segment_eval.py models/1.txt
+
+Sweep speaker-independent segmentation options:
+
+    stdbuf -oL ./spawn_sweep_segment.py \
+        --S_0_scale 0.001,0.0001 \
+        --am_K 0.05landmarks,0.1landmarks,0.2landmarks,0.3landmarks \
+        --serial data/devpart1/mfcc.n_10.unsup_syl > models/2.txt
+    ./spawn_sweep_segment_eval.py models/2.txt
+
+Sweeping options for single-speaker bigram model (note the directory which
+points to the specific speaker):
+
+    stdbuf -oL ./spawn_sweep_segment.py \
+        --bigram \
+        --S_0_scale 0.0001,0.001,0.002,0.005 \
+        --lms 1.0,5.0,10.0,20.0,30.0,40.050.0 \
+        --intrp_lambda 0.1 \
+        data/devpart1/mfcc.n_10.unsup_syl/s38 > models/devpart1/s38_1.txt
