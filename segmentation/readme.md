@@ -135,9 +135,36 @@ Plot a heatmap of the words in the biggest clusters:
     ./plot_clusters_words.py \
         models/devpart1/mfcc.n_10.unsup_syl/s38/38f9526370/segment.pkl
 
-Print or plot some mappings:
 
-    ./print_mappings.py \
-        models/devpart1/mfcc.n_10.unsup_syl/s38/38f9526370/segment.pkl
-    ./plot_mappings.py --n_true_tokens_min 4 \
-        models/devpart1/mfcc.n_10.unsup_syl/s38/38f9526370/segment.pkl
+
+Unigram speaker-dependent segmentation and evaluation
+-----------------------------------------------------
+The approach is to run `./segment.py` for each speaker independently. A
+separate job is spawned for each speaker, so it is recommended that the steps
+below are executed on a multi-core machine (preferably with at least 24 cores
+for each of the speakers). The `stdbuf -oL` commands below just makes sure that
+standard output gets flushed (so the outputs and log files are written as the
+programs run). All options should be set in `./segment.py` or via the
+command-line.
+
+Perform segmentation on the different corpora and different feature
+representations:
+
+    # Devpart1
+    stdbuf -oL ./spawn_segment_sd.py data/devpart1/mfcc.n_10.unsup_syl
+    ./spawn_segment_sd_eval.py \
+        .../models.txt
+
+    # ZeroSpeech
+    stdbuf -oL ./spawn_segment_sd.py data/zs/mfcc.n_10.unsup_syl
+    ./spawn_segment_sd_eval.py \
+        .../models.txt
+
+    # Xitsonga
+    stdbuf -oL ./spawn_segment_sd.py data/tsonga/cae.d_13.n_10.unsup_syl
+    ./spawn_segment_sd_eval.py \
+        .../models.txt
+
+The scores are as given in the papers ...
+
+
