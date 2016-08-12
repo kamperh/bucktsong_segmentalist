@@ -162,7 +162,8 @@ representations:
         models/devpart1/mfcc.n_10.unsup_syl/sd_1a34acf3f8/models.txt
 
     # ZeroSpeech
-    stdbuf -oL ./spawn_segment_sd.py data/zs/mfcc.n_10.unsup_syl
+    stdbuf -oL ./spawn_segment_sd.py --min_duration 25 \
+        data/zs/mfcc.n_10.unsup_syl
     ./spawn_segment_sd_eval.py \
         .../models.txt
 
@@ -213,6 +214,11 @@ evaluated:
 
     ./segment_sd_to_zs.py \
         models/devpart1/mfcc.n_10.unsup_syl/sd_1a34acf3f8/models.txt
+    cd ../../src/tde/english_dir/
+    ln -s ../../bucktsong_segment/models/zs/mfcc.n_10.unsup_syl/sd_00932ab49f/classes.txt \
+        sd_00932ab49f.classes.txt
+    ./english_eval2 -j 5 sd_00932ab49f.classes.txt sd_00932ab49f
+    cd -
     
 
 Zero-speech tools ...
