@@ -1,6 +1,15 @@
 Unsupervised Segmentation and Clustering of Buckeye English and NCHLT Xitsonga
 ==============================================================================
 
+Overview
+--------
+Some of the results obtained below might be slightly different from that
+obtained in [Kamper et al., 2016](http://arxiv.org/abs/1606.06950) because of
+different initializations and small changes that I made. The general trends
+should stay the same, though.
+
+
+
 Data pre-processing
 -------------------
 Format the Buckeye and Tsonga data into the input format used by
@@ -102,8 +111,8 @@ Producing output:
 
 
 
-Analysis
---------
+Examples of analysis scripts
+----------------------------
 Plot embeddings:
 
     ./plot_embeddings.py \
@@ -150,7 +159,7 @@ representations:
     # Devpart1
     stdbuf -oL ./spawn_segment_sd.py data/devpart1/mfcc.n_10.unsup_syl
     ./spawn_segment_sd_eval.py \
-        .../models.txt
+        models/devpart1/mfcc.n_10.unsup_syl/sd_1a34acf3f8/models.txt
 
     # ZeroSpeech
     stdbuf -oL ./spawn_segment_sd.py data/zs/mfcc.n_10.unsup_syl
@@ -158,12 +167,53 @@ representations:
         .../models.txt
 
     # Xitsonga
-    stdbuf -oL ./spawn_segment_sd.py data/tsonga/cae.d_13.n_10.unsup_syl
+    stdbuf -oL ./spawn_segment_sd.py --min_duration 25 --S_0_scale 0.0001 \
+        data/tsonga/cae.d_13.n_10.unsup_syl
     ./spawn_segment_sd_eval.py \
-        .../models.txt
+        models/tsonga/cae.d_13.n_10.unsup_syl/sd_ce0a493211/models.txt
 
-The scores are as given in the papers ...
+The first of these (applied to Devpart1) should give the following results:
 
+    Avg. clustering average purity: 0.466451538841
+    Std. clustering average purity: 0.0324127351051
+    Avg. clustering one-to-one accuracy: 0.232250125334
+    Std. clustering one-to-one accuracy: 0.0283745260209
+    NED: 0.772528496666
+    Errors: H = 19329, D = 14161, S = 56191, I = 9551, N = 89681
+    No. of utterances: 24401
+    No. of tokens: 85071
+    uWER: 0.890969101593
+    uWER_many: 0.681259129582
+
+This corresponds (approximately) to the scores of the English1 BayesSeg-MFCC
+system given in Tables 2 and 3 of
+[Kamper et al., 2016](http://arxiv.org/abs/1606.06950).
+
+The last of the above results (on Xitsonga) should be:
+
+    Avg. clustering average purity: 0.524288019617
+    Std. clustering average purity: 0.0276663141808
+    Avg. clustering one-to-one accuracy: 0.41867441981
+    Std. clustering one-to-one accuracy: 0.042845486258
+    NED: 0.875654602583
+    Errors: H = 6704, D = 5346, S = 7798, I = 1999, N = 19848
+    No. of utterances: 4058
+    No. of tokens: 16501
+    uWER: 0.7629484079
+    uWER_many: 0.691555824264
+
+This corresponds (approximately) to the scores of the Xitsonga
+BayesSegMinDur-cAE  results given in Tables 2 and 4 of
+[Kamper et al., 2016](http://arxiv.org/abs/1606.06950).
+
+To evaluate any of the above models using the tools from the [Zero Resource
+Speech Challenge](http://www.zerospeech.com), the decoded output from the above
+systems need to be converted to the appropriate format, and can then be
+evaluated:
+
+    ./segment_sd_to_zs.py \
+        models/devpart1/mfcc.n_10.unsup_syl/sd_1a34acf3f8/models.txt
+    
 
 Zero-speech tools ...
 
@@ -171,13 +221,13 @@ Zero-speech tools ...
 
 Unigram speaker-independent segmentation and evaluation
 -------------------------------------------------------
-
+...
 
 
 
 Bigram single-speaker segmentation and evaluation
 -------------------------------------------------
-
+...
 
 
 
