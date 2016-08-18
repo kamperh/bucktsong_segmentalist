@@ -87,6 +87,13 @@ Challenge 2015; without `tde` you will not be able to calculate the metrics in
 Section 4.5 of [Kamper et al., 2016](http://arxiv.org/abs/1606.06950), but you
 will still be able to calculate the other metrics in the paper.
 
+The `tde` package itself needs to be setup. In `../src/tde/` run the following:
+
+    python setup.py build_ext --inplace
+    python setup_freeze.py build_exe
+    python move_build.py english english_dir
+    python move_build.py xitsonga xitsonga_dir
+
 
 
 Feature extraction

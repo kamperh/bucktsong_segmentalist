@@ -162,10 +162,10 @@ representations:
         models/devpart1/mfcc.n_10.unsup_syl/sd_1a34acf3f8/models.txt
 
     # ZeroSpeech
-    stdbuf -oL ./spawn_segment_sd.py --min_duration 25 \
-        data/zs/mfcc.n_10.unsup_syl
+    stdbuf -oL ./spawn_segment_sd.py data/zs/mfcc.n_10.unsup_syl \
+        --min_duration 25
     ./spawn_segment_sd_eval.py \
-        .../models.txt
+        models/zs/mfcc.n_10.unsup_syl/sd_79c7ecee12/models.txt
 
     # Xitsonga
     stdbuf -oL ./spawn_segment_sd.py --min_duration 25 --S_0_scale 0.0001 \
@@ -190,7 +190,24 @@ This corresponds (approximately) to the scores of the English1 BayesSeg-MFCC
 system given in Tables 2 and 3 of
 [Kamper et al., 2016](http://arxiv.org/abs/1606.06950).
 
-The last of the above results (on Xitsonga) should be:
+The second of these (applied to ZeroSpeech) should give the following results:
+
+    Avg. clustering average purity: 0.560622578439
+    Std. clustering average purity: 0.0279629436698
+    Avg. clustering one-to-one accuracy: 0.320508515728
+    Std. clustering one-to-one accuracy: 0.0244399112599
+    NED: 0.689065600198
+    Errors: H = 12870, D = 30133, S = 26540, I = 920, N = 69543
+    No. of utterances: 21498
+    No. of tokens: 40330
+    uWER: 0.828163869836
+    uWER_many: 0.684094732755
+
+This corresponds (approximately) to the scores of the English2
+BayesSegMinDur-MFCC system given in Tables 2 and 3 of
+[Kamper et al., 2016](http://arxiv.org/abs/1606.06950).
+
+The last of the above results (on Xitsonga) should give:
 
     Avg. clustering average purity: 0.524288019617
     Std. clustering average purity: 0.0276663141808
@@ -213,31 +230,65 @@ systems need to be converted to the appropriate format, and can then be
 evaluated:
 
     ./segment_sd_to_zs.py \
-        models/devpart1/mfcc.n_10.unsup_syl/sd_1a34acf3f8/models.txt
+        models/zs/mfcc.n_10.unsup_syl/sd_79c7ecee12/models.txt
     cd ../../src/tde/english_dir/
-    ln -s ../../bucktsong_segment/models/zs/mfcc.n_10.unsup_syl/sd_00932ab49f/classes.txt \
-        sd_00932ab49f.classes.txt
-    ./english_eval2 -j 5 sd_00932ab49f.classes.txt sd_00932ab49f
+    ln -s \
+        ../../../bucktsong_segmentalist/segmentation/models/zs/mfcc.n_10.unsup_syl/sd_79c7ecee12/classes.txt \
+        sd_79c7ecee12.classes.txt
+    ./english_eval2 -j 5 sd_79c7ecee12.classes.txt sd_79c7ecee12
     cd -
     
+In the `tde/sd_79c7ecee12/` directory, various files will then be created
+given the various scores. For example, `tde/sd_79c7ecee12/nlp` contains:
 
-Zero-speech tools ...
+    -------------------------------------
+    NLP total
+    #folds:    12
+    #samples:  11153
+    -------------------------------------
+    measure    mean   std    min    max  
+    ---------  -----  -----  -----  -----
+    NED        0.556  0.024  0.498  0.591
+    coverage   1.063  0.004  1.059  1.072
+    -------------------------------------
+
+This matches the NED scores of the English BayesSegMinDur-MFCC model in Figure
+4 and Table 7 in [Kamper et al., 2016](http://arxiv.org/abs/1606.06950).
 
 
 
 Unigram speaker-independent segmentation and evaluation
 -------------------------------------------------------
-...
+Here I give an example only on the ZeroSpeech subset; results on Devpart1 and
+Xitsonga can be generated in a similar way.
+
+Speaker-indepedent segmentation and evaluation:
+
+    # ZeroSpeech
+    ./segment.py --data_dir data/zs/mfcc.n_10.unsup_syl --min_duration 25
+    ./segment_eval.py \
+        models/zs/mfcc.n_10.unsup_syl/26792eb71b/segment.pkl > \
+        models/zs/mfcc.n_10.unsup_syl/26792eb71b/segment_eval.txt
+
+Evaluate using the ZeroSpeech tools:
+
+    ./segment_to_zs.py models/zs/mfcc.n_10.unsup_syl/26792eb71b/segment.pkl
+    cd ../../src/tde/english_dir/
+    ln -s \
+        ../../../bucktsong_segmentalist/segmentation/models/zs/mfcc.n_10.unsup_syl/26792eb71b/classes.txt \
+        26792eb71b.classes.txt
+    ./english_eval2 -j 5 26792eb71b.classes.txt 26792eb71b
+    cd -
 
 
 
 Bigram single-speaker segmentation and evaluation
 -------------------------------------------------
-...
+Again, set additional hyperparameters within `segment.py`:
 
-
-
-
+    ./bigram_segment.py --min_duration 25 data/devpart1/mfcc.n_10.unsup_syl/s38
+    ./segment_eval.py \
+        models/devpart1/mfcc.n_10.unsup_syl/s38/.../segment.pkl
 
 
 
