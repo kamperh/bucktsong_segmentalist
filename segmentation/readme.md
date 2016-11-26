@@ -288,7 +288,7 @@ Again, set additional hyperparameters within `segment.py`:
 
     ./bigram_segment.py --min_duration 25 data/devpart1/mfcc.n_10.unsup_syl/s38
     ./segment_eval.py \
-        models/devpart1/mfcc.n_10.unsup_syl/s38/.../segment.pkl
+        models/devpart1/mfcc.n_10.unsup_syl/s38/c07ee49703/segment.pkl
 
 
 
